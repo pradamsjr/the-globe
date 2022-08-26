@@ -23,16 +23,16 @@ public class TheGlobeApplication {
     }
 
     @Bean
-    public Properties applicationProperties(){
+    public Properties applicationProperties() {
         Resource resource = new ClassPathResource("/application.properties");
-        Properties applicationProperties = new Properties();
+        Properties applicationProperties = null;
 
         try {
             applicationProperties = PropertiesLoaderUtils.loadProperties(resource);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            if (applicationProperties == null){
+            if (applicationProperties == null) {
                 applicationProperties = new Properties();
             }
         }
