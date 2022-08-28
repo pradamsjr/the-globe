@@ -9,26 +9,25 @@ import com.reekmike.theglobe.repository.CountryRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 @Service
 public class CountryService {
-
     private static final Logger logger = LogManager.getLogger(CountryService.class);
     @Autowired
     private final RestTemplate restTemplate;
 
     @Autowired
-    private Properties applicationProperties;
-
-    @Autowired
     private CountryRepository countryRepository;
+
+    @Value("${geonames.countryInfo.url}")
+    private String countryInfoUrl;
 
     private static ConvertEntityToModelLambda convertEntityToModelLambda = (entities) -> {
         List<Country> models = new ArrayList<>();
@@ -66,8 +65,7 @@ public class CountryService {
     }
 
     private List<Country> findAllModelsFromService() {
-        String url = applicationProperties.getProperty("geonames.countryInfo.url");
-        ResponseEntity<CountriesResponse> responseEntity = restTemplate.getForEntity(url, CountriesResponse.class);
+        ResponseEntity<CountriesResponse> responseEntity = restTemplate.getForEntity(countryInfoUrl, CountriesResponse.class);
         CountriesResponse countriesResponse = responseEntity.getBody();
         List<Country> models = countriesResponse.getGeonames();
         saveModels(models);
