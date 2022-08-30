@@ -5,6 +5,8 @@ public class Country {
 
     private String countryName;
 
+    private Long population;
+
     public String getCountryCode() {
         return countryCode;
     }
@@ -21,7 +23,15 @@ public class Country {
         this.countryName = countryName;
     }
 
+    public Long getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(Long population) {
+        this.population = population;
+    }
+
     public String toString() {
-        return "code: " + countryCode + ", name: " + countryName + "\n";
+        return "code: " + countryCode + ", name: " + countryName + ", population: " + population;
     }
 }

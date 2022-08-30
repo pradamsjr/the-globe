@@ -4,6 +4,6 @@ import com.reekmike.theglobe.model.Country;
 
 import java.util.List;
 
-public interface ConvertEntityToModelLambda {
+public interface ConvertEntityToModel {
     public List<Country> convert(List<com.reekmike.theglobe.entity.Country> entity);
 }

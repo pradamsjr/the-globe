@@ -11,6 +11,7 @@ public class CountryMapper {
         Country model = new Country();
         model.setCountryCode(entity.getCode());
         model.setCountryName(entity.getName());
+        model.setPopulation(entity.getPopulation());
         return model;
     }
 
@@ -18,6 +19,7 @@ public class CountryMapper {
         com.reekmike.theglobe.entity.Country entity = new com.reekmike.theglobe.entity.Country();
         entity.setCode(model.getCountryCode());
         entity.setName(model.getCountryName());
+        entity.setPopulation(model.getPopulation());
         return entity;
     }
 }

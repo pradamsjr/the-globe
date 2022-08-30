@@ -21,3 +21,4 @@ public class TheGlobeApplication {
         SpringApplication.run(TheGlobeApplication.class, args);
     }
 }
+                     

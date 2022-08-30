@@ -17,6 +17,8 @@ public class Country {
 
     private String name;
 
+    private Long population;
+
     public Country() {
     }
 
@@ -44,7 +46,15 @@ public class Country {
         this.name = name;
     }
 
+    public Long getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(Long population) {
+        this.population = population;
+    }
+
     public String toString() {
-        return "id: " + id + ", code: " + code + ", name: " + name;
+        return "id: " + id + ", code: " + code + ", name: " + name + ", population: " + population;
     }
 }

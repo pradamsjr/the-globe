@@ -1,7 +1,7 @@
 package com.reekmike.theglobe.service;
 
 
-import com.reekmike.theglobe.lambda.ConvertEntityToModelLambda;
+import com.reekmike.theglobe.lambda.ConvertEntityToModel;
 import com.reekmike.theglobe.mapper.CountryMapper;
 import com.reekmike.theglobe.model.CountriesResponse;
 import com.reekmike.theglobe.model.Country;
@@ -20,6 +20,7 @@ import java.util.List;
 @Service
 public class CountryService {
     private static final Logger logger = LogManager.getLogger(CountryService.class);
+
     @Autowired
     private final RestTemplate restTemplate;
 
@@ -29,22 +30,24 @@ public class CountryService {
     @Value("${geonames.countryInfo.url}")
     private String countryInfoUrl;
 
-    private static ConvertEntityToModelLambda convertEntityToModelLambda = (entities) -> {
-        List<Country> models = new ArrayList<>();
-        entities.forEach((entity) -> {
-            logger.info("convertEntityToModelLambda: entity: " + entity);
-            models.add(CountryMapper.convert(entity));
-        });
+    /*
+        private static ConvertEntityToModelLambda convertEntityToModelLambda = (entities) -> {
+            List<Country> models = new ArrayList<>();
+            entities.forEach((entity) -> {
+                logger.info("convertEntityToModelLambda: entity: " + entity);
+                models.add(CountryMapper.convert(entity));
+            });
 
-        return models;
-    };
-
+            return models;
+        };
+    */
     public CountryService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     public List<Country> findAll() {
         List<Country> models = new ArrayList<>();
+
         if (countryRepository.count() == 0) {
             models.addAll(findAllModelsFromService());
         } else {
@@ -61,7 +64,17 @@ public class CountryService {
     }
 
     private List<Country> findAllModelsFromDb() {
-        return convertEntityToModelLambda.convert((List<com.reekmike.theglobe.entity.Country>) countryRepository.findAll());
+        ConvertEntityToModel convertEntityToModel = (entities) -> {
+            List<Country> models = new ArrayList<>();
+            entities.forEach((entity) -> {
+                logger.info("convertEntityToModelLambda: entity: " + entity);
+                models.add(CountryMapper.convert(entity));
+            });
+
+            return models;
+        };
+
+        return convertEntityToModel.convert((List<com.reekmike.theglobe.entity.Country>) countryRepository.findAll());
     }
 
     private List<Country> findAllModelsFromService() {
